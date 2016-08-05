@@ -5,6 +5,8 @@ function Slider(element, options) {
     this.container = element;
     //this will accept an object
     this.defaults = {
+        autoplay: true,
+        slideSpeed: 1000,
         slide: true,
         fade: false,
         dotPosition: 'bottom', //top, left, right, bottom
@@ -15,6 +17,7 @@ function Slider(element, options) {
     this.fade();
     this.filter();
     this.setup();
+    console.log(this.finalOptions);
 }
 Slider.prototype.options = function(defaults, options) {
     for(var key in defaults) {
@@ -45,27 +48,31 @@ Slider.prototype.filter = function() {
 Slider.prototype.setup = function() {
     //array holding all slides
     
-    /* Note: the array is being updated so the variable is changing the length everytime I move one from it into the target div */
+    /* Note: the array is being updated so the variable length is changing everytime I move one from it into the target div */
     
     var slideData = this.container.children
     var slideLen = slideData.length;
-    console.log(slideLen);
+    var viewport = window.outerWidth;
     //add a class to the container just for lols
     this.container.classList.add('so-container');
+    this.container.style.width = viewport + 'px';
     //create a wrapper div to build the slider then give it a class and move all the slide data elements inside it
     var track = document.createElement('div');
-    track.classList.add('so-track')
+    track.classList.add('so-track');
+    //set the length of the track 
+    track.style.width = (slideLen * viewport) + 'px';
+    //loop through all the slides
     for(var d=0; d < slideData.length; d++) {
         slideData[d].classList.add('so-slide');
+        slideData[d].style.width = viewport + 'px';
     }
     var slides = document.querySelectorAll('.so-slide')
     //must be a way around this other than 2 for loops!? investigate!
     for(var e=0; e < slides.length; e++) {
         track.appendChild( slides[e] );
     }
-    
-    
     this.container.appendChild(track);
+    //add a resize event here for the slider in full
 }
 
 
@@ -75,7 +82,7 @@ new Slider(slider, {
     slide: false,
     fade: false,
     filter: 'puppyLove',
-    'dotType' : 'hearts'
+    dotType : 'hearts'
 });
 
 
