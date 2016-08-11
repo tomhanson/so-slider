@@ -12,8 +12,11 @@ body {
 }
 .so-track {
     position: relative;
-    transition: 0.2s right;
+    transition: 2.2s right;
 }
 .so-slide:nth-child(odd) {
     background-color: red;
+}
+.so-transition-off {
+    transition: none !important;
 }
